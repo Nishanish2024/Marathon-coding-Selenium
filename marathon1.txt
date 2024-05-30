@@ -1,0 +1,55 @@
+Testleaf Trainer 3/15/2024 8:57 AM • Testcase:1 (AbhiBus)
+==========
+01) Launch Firefox / Chrome / Safari / Edge 
+02) Load https://www.abhibus.com/
+Add implicitlyWait - driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+03) Type "Chennai" in the FROM text box
+04) Click the first option from the pop up box
+05) Type "Bangalore" in the TO text box
+06) Click the first option from the pop up box
+07) Select tomorrow's date in the Date field and click on search button
+08) Print the name of the first resulting bus (use .getText())
+09) Choose SLEEPER in the left menu from Bus Type
+10) Print the first resulting bus seat count(Example:35 Seats Available)(use .getText())
+11) Click Show Seats
+12) Choose any one Available seat
+13) Select the first resulting checkbox from the Boarding Point and Dropping Point
+14) Print Seats Selected ,Total Fare
+15) Get the Title of the page(use .getTitle())
+16) Close the browser
+
+Testcase 2 (PVR cinemas)
+==========
+01) Launch the url  https://www.pvrcinemas.com/
+02) Choose Your Location as Chennai
+03) Click  on Movie Library under hamburger button
+04) Select the Genre-->Animation
+05) Select the Language-->English
+06) Click on Apply
+07) Click on first resulting animation movie
+08) Click proceed to book
+09) Enter all fields  cinema , Name, date, preferred show time, no of seats, food and beverages, Email and Mobile
+10) Click on copy to self
+11) Click on  Send Request
+12) Click cancel
+13) Close the OTP dialog
+14) Verify the title of the page
+
+estcase:3(Amazon)
+===============
+01) Launch Chrome  
+02) Load https://www.amazon.in/
+     add  implicitlyWait
+     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+03) Type "Bags for boys" in the Search box
+04) Choose the   item in the result (bags for boys)
+05) Print the total number of results (like 50000)
+    1-48 of over 50,000 results for "bags for boys"
+06) Select the first 2 brands in the left menu
+    (like American Tourister, Generic)
+07) Choose New Arrivals (Sort)
+08) Print the first resulting bag info (name, discounted price)
+09) Get the page title and close the browser(driver.close())
+
+
+setTimeout(function(){debugger;},5000);

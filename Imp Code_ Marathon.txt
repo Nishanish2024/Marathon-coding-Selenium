@@ -1,0 +1,97 @@
+//to avoid unwanted notifications or ads
+	ChromeOptions option = new ChromeOptions();
+	option.addArguments("--disable-notifications");
+
+	ChromeDriver driver = new ChromeDriver(option);
+	driver.get("https://www.tatacliq.com/");
+	driver.manage().window().maximize();
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+
+//javascript click
+	WebElement prodClick = driver.findElement(By.xpath("//div[@class='ProductDescription__content']"));
+	driver.executeScript("arguments[0].click();", prodClick);
+
+	WebElement email =  driver.findElement(By.id("inputEmail4"));
+        String inputEmail="testdata@gmail.com";
+    	driver.executeScript("arguments[0].value='"+ inputEmail +"';", email);
+    	
+// iframe for ads
+	WebElement frameAds = driver.findElement(By.xpath("//iframe[@id='wiz-iframe-intent']"));
+	driver.switchTo().frame(frameAds);
+	driver.findElement(By.xpath("//span[@class='CT_InterstitialClose']")).click();
+
+	driver.switchTo().defaultContent();
+		
+// mouse over
+	Actions action = new Actions(driver);
+	WebElement brandsWE = driver.findElement(By.xpath("(//div[@class='DesktopHeader__categoryAndBrand'])[2]"));
+	action.moveToElement(brandsWE).perform();
+
+// Moving to a new window
+	Set<String> windowHandles = driver.getWindowHandles();
+	List<String> window = new ArrayList<String>(windowHandles);
+	driver.switchTo().window(window.get(1));
+	System.out.println("Moved to a new window...");
+
+// screenshot
+	System.out.println("Taking a screen shot...");
+	File sourceFile = driver.getScreenshotAs(OutputType.FILE);
+	File destiFile = new File("./snaps/viewAddtoCart.png");
+	FileUtils.copyFile(sourceFile, destiFile);
+
+//shadow Root
+	Shadow shadow = new Shadow(driver);
+	shadow.setImplicitWait(10);
+	shadow.findElementByXPath("//div[text()='All']").click();
+
+//To freeze DOM
+	setTimeout(function(){debugger;},5000);
+
+//To read excel data
+	public static String[][] readExcelData(String fileName) throws IOException{
+		//set the excel path
+		XSSFWorkbook wb = new XSSFWorkbook("./ExcelData/W3School.xlsx") ; 
+		//get the excel sheet
+		XSSFSheet sheetAt = wb.getSheetAt(0);
+		//get the count of how many rows
+		int rowCount = sheetAt.getLastRowNum();
+		System.out.println("no of rows: "+ rowCount);
+		
+		short columnCount = sheetAt.getRow(0).getLastCellNum();
+		System.out.println("no of columns: "+ columnCount);
+		
+		String data[][] = new String[rowCount][columnCount];
+		for(int i=1; i<= rowCount; i++) {
+			XSSFRow row = sheetAt.getRow(i);
+			for(int j=0; j< columnCount; j++) {
+				XSSFCell cell = row.getCell(j);
+				String cellValue = cell.getStringCellValue();
+				System.out.println("cellValue: "+ cellValue);
+				data[i-1][j]=cellValue;
+			}
+		}
+		return data;
+	}
+
+@Test(dataProvider = "sendData")
+
+@DataProvider (name= "sendData", indices = {0})
+	public String[][] fetchData() throws IOException{
+		
+		return ReadExcelFile.readExcelData("W3School");	
+	}
+
+
+/Actions class method to drag and drop 
+Actions builder = new Actions(driver);
+WebElement from = driver.findElement(By.id("column-a"));
+WebElement to = driver.findElement(By.id("column-b")); 
+//Perform drag and drop
+builder.dragAndDrop(from, to).perform();
+//verify text changed in to 'Drop here' box 
+String textTo = to.getText();
+if(textTo.equals("Dropped!")) {
+System.out.println("PASS: File is dropped to target as expected");
+}else {
+System.out.println("FAIL: File couldn't be dropped to target as expected");
+}
